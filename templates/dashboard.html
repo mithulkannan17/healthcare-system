@@ -1,0 +1,268 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="page-title">
+    Healthcare Data Mining Dashboard
+</h1>
+
+<div class="row mt-4">
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card">
+
+            <h5>Total Patients</h5>
+
+            <h2>{{ total_patients }}</h2>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card">
+
+            <h5>High Risk Cases</h5>
+
+            <h2>{{ high_risk_cases }}</h2>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card">
+
+            <h5>Disease Categories</h5>
+
+            <h2>{{ disease_categories }}</h2>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card">
+
+            <h5>States Covered</h5>
+
+            <h2>{{ states_covered }}</h2>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row mt-5">
+
+    <div class="col-md-6">
+
+        <div class="card chart-card">
+
+            <h5>
+                Disease Distribution
+            </h5>
+
+            <canvas id="diseaseChart"></canvas>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+        <div class="card chart-card">
+
+            <h5>
+                Severity Analysis
+            </h5>
+
+            <canvas id="severityChart"></canvas>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row mt-5">
+
+    <div class="col-md-12">
+
+        <div class="card chart-card">
+
+            <h5 class="mb-4">
+                Regional Disease Intelligence
+            </h5>
+
+            <canvas id="regionHeatmap"></canvas>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row mt-5">
+
+    <div class="col-md-12">
+
+        <div class="card chart-card">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <h5 class="mb-0">
+                    Live Health Intelligence Alerts
+                </h5>
+
+                <a href="/refresh-alerts" class="btn btn-sm btn-primary">
+                    Refresh Alerts
+                </a>
+
+            </div>
+
+            <div class="alert-feed">
+
+                {% for alert in latest_alerts %}
+
+                <div class="health-alert-item">
+
+                    <div class="alert-badge">
+                        LIVE
+                    </div>
+
+                    <div class="alert-content">
+
+                        <div class="alert-title">
+                            {{ alert }}
+                        </div>
+
+                        <div class="alert-time">
+                            Public Health Intelligence Feed
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row mt-5">
+
+    <div class="col-md-12">
+
+        <div class="card chart-card">
+
+            <h5 class="mb-4">
+                AI Generated Healthcare Insights
+            </h5>
+
+            <div class="insight-container">
+
+                {% for insight in insights %}
+
+                <div class="insight-card">
+
+                    <div class="insight-icon">
+                        AI
+                    </div>
+
+                    <div class="insight-text">
+                        {{ insight }}
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row mt-4">
+
+    <div class="col-md-4">
+
+        <div class="card dashboard-card">
+
+            <h5>
+                Prediction Model
+            </h5>
+
+            <h2>
+                High Accuracy
+            </h2>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card dashboard-card">
+
+            <h5>
+                Data Mining Engine
+            </h5>
+
+            <h2>
+                Optimized Analysis
+            </h2>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card dashboard-card">
+
+            <h5>
+                Healthcare Intelligence
+            </h5>
+
+            <h2>
+                High Performance
+            </h2>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+    const diseaseData =
+        {{ disease_counts | tojson }};
+
+    const severityData =
+        {{ severity_counts | tojson }};
+
+    const regionDiseaseMap =
+        {{ region_disease_map | tojson }};
+
+</script>
+
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="page-title">
+    Healthcare Cluster Intelligence Dashboard
+</h1>
+
+<div class="row">
+
+    <div class="col-12">
+
+        <div class="card cluster-chart-card">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <h4 class="mb-0">
+                    3D Patient Cluster Visualization
+                </h4>
+
+                <div class="cluster-badge">
+                    K-Means Clustering
+                </div>
+
+            </div>
+
+            <div id="cluster3dChart"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row mt-5">
+
+    {% for cluster in clusters %}
+
+    <div class="col-md-6 mb-4">
+
+        <div class="card cluster-card">
+
+            <div class="cluster-header">
+
+                <h3>
+                    Cluster {{ cluster.cluster_id }}
+                </h3>
+
+                <div class="
+                    cluster-risk
+
+                    {% if cluster.risk_level == 'HIGH RISK' %}
+                        high-risk
+                    {% endif %}
+                ">
+
+                    {{ cluster.risk_level }}
+
+                </div>
+
+            </div>
+
+            <div class="cluster-info">
+
+                <p>
+                    <strong>Total Patients:</strong>
+                    {{ cluster.patient_count }}
+                </p>
+
+                <p>
+                    <strong>Average Age:</strong>
+                    {{ cluster.avg_age }}
+                </p>
+
+                <p>
+                    <strong>Average BMI:</strong>
+                    {{ cluster.avg_bmi }}
+                </p>
+
+                {% if cluster.dominant_disease %}
+
+                <p>
+                    <strong>Dominant Disease:</strong>
+                    {{ cluster.dominant_disease }}
+                </p>
+
+                {% endif %}
+
+                {% if cluster.dominant_region %}
+
+                <p>
+                    <strong>Dominant Region:</strong>
+                    {{ cluster.dominant_region }}
+                </p>
+
+                {% endif %}
+
+                <p>
+                    <strong>Severe Case Percentage:</strong>
+                    {{ cluster.severe_percentage }}%
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+<script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+
+<script>
+
+    const clusterPoints =
+        {{ cluster_points | tojson }};
+
+</script>
+
+<script src="{{ url_for('static', filename='js/cluster_dashboard.js') }}"></script>
+
+{% endblock %}

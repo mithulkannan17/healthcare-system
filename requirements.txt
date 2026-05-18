@@ -1,0 +1,11 @@
+Flask
+pandas
+numpy
+scikit-learn
+joblib
+mlxtend
+matplotlib
+requests
+beautifulsoup4
+gunicorn
+plotly
